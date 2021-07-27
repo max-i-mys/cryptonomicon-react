@@ -1,8 +1,26 @@
 import React, { useState } from "react"
+import { addTicket } from "../api/crud"
+import useTickets from "../hooks/useTickets"
 
 export default function Header() {
 	const [currencyValue, setCurrencyValue] = useState(null)
-	function add() {}
+	const [, dispatch] = useTickets()
+	async function add(e) {
+		const newTicket = {
+			current: currencyValue,
+			price: "unknown",
+		}
+		const [newTicketData, newTicketDataErr] = await addTicket(newTicket)
+		if (!newTicketDataErr) {
+			dispatch({ type: "ADD", payload: newTicketData })
+			setCurrencyValue(null)
+			return
+		}
+		if (newTicketDataErr) {
+			new Error("Error while adding data!")
+			return
+		}
+	}
 	return (
 		<>
 			<section>
@@ -12,7 +30,7 @@ export default function Header() {
 							htmlFor="wallet"
 							className="block text-sm font-medium text-gray-700"
 						>
-							Тикер{count}
+							Тикер
 						</label>
 						<div className="mt-1 relative rounded-md shadow-md">
 							<input

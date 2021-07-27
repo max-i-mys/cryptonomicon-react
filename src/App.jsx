@@ -1,6 +1,6 @@
 import "./App.css"
 import Header from "./components/Header"
-import TicketList from "./components/TickerList"
+import TicketList from "./components/TicketList"
 
 function App() {
 	return (
