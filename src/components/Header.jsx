@@ -2,6 +2,7 @@ import React, { useState } from "react"
 
 export default function Header() {
 	const [currencyValue, setCurrencyValue] = useState(null)
+	function add() {}
 	return (
 		<>
 			<section>
@@ -11,13 +12,13 @@ export default function Header() {
 							htmlFor="wallet"
 							className="block text-sm font-medium text-gray-700"
 						>
-							Тикер
+							Тикер{count}
 						</label>
 						<div className="mt-1 relative rounded-md shadow-md">
 							<input
 								onChange={e => setCurrencyValue(() => e.target.value)}
-								onKeyDown={e => (e.key === "Enter" ? alert(currencyValue) : "")}
-								value={currencyValue}
+								onKeyDown={e => (e.key === "Enter" ? add : "")}
+								value={currencyValue ? currencyValue : ""}
 								type="text"
 								name="wallet"
 								id="wallet"
@@ -55,7 +56,7 @@ export default function Header() {
 					</div>
 				</div>
 				<button
-					onClick={() => alert(currencyValue)}
+					onClick={add}
 					type="button"
 					className="my-4 inline-flex items-center py-2 px-4 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-full text-white bg-gray-600 hover:bg-gray-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
 				>
