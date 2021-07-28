@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { addTicket } from "../api/crud"
 import useTickets from "../hooks/useTickets"
+import { popularCurrency } from "../util/constants"
 
 export default function Header() {
 	const [currencyValue, setCurrencyValue] = useState(null)
@@ -9,7 +10,7 @@ export default function Header() {
 		if (currencyValue) {
 			const newTicket = {
 				current: currencyValue,
-				price: "unknown",
+				price: "-",
 			}
 			const [newTicketData, newTicketDataErr] = await addTicket(newTicket)
 			if (!newTicketDataErr) {
@@ -47,28 +48,28 @@ export default function Header() {
 						</div>
 						<div className="flex bg-white shadow-md p-1 rounded-md shadow-md flex-wrap">
 							<span
-								onClick={() => setCurrencyValue(() => "BTC")}
+								onClick={() => setCurrencyValue(() => popularCurrency[0])}
 								className="inline-flex items-center px-2 m-1 rounded-md text-xs font-medium bg-gray-300 text-gray-800 cursor-pointer"
 							>
-								BTC
+								{popularCurrency[0]}
 							</span>
 							<span
-								onClick={() => setCurrencyValue(() => "DOGE")}
+								onClick={() => setCurrencyValue(() => popularCurrency[1])}
 								className="inline-flex items-center px-2 m-1 rounded-md text-xs font-medium bg-gray-300 text-gray-800 cursor-pointer"
 							>
-								DOGE
+								{popularCurrency[1]}
 							</span>
 							<span
-								onClick={() => setCurrencyValue(() => "BCH")}
+								onClick={() => setCurrencyValue(() => popularCurrency[2])}
 								className="inline-flex items-center px-2 m-1 rounded-md text-xs font-medium bg-gray-300 text-gray-800 cursor-pointer"
 							>
-								BCH
+								{popularCurrency[2]}
 							</span>
 							<span
-								onClick={() => setCurrencyValue(() => "CHD")}
+								onClick={() => setCurrencyValue(() => popularCurrency[3])}
 								className="inline-flex items-center px-2 m-1 rounded-md text-xs font-medium bg-gray-300 text-gray-800 cursor-pointer"
 							>
-								CHD
+								{popularCurrency[3]}
 							</span>
 						</div>
 						<div className="text-sm text-red-600">Такой тикер уже добавлен</div>
