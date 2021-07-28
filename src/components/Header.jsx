@@ -5,19 +5,21 @@ import useTickets from "../hooks/useTickets"
 export default function Header() {
 	const [currencyValue, setCurrencyValue] = useState(null)
 	const [, dispatch] = useTickets()
-	async function add(e) {
-		const newTicket = {
-			current: currencyValue,
-			price: "unknown",
-		}
-		const [newTicketData, newTicketDataErr] = await addTicket(newTicket)
-		if (!newTicketDataErr) {
-			dispatch({ type: "ADD", payload: newTicketData })
-			setCurrencyValue(null)
-			return
-		}
-		if (newTicketDataErr) {
-			throw new Error("Error while adding data!")
+	async function handleAdd(e) {
+		if (currencyValue) {
+			const newTicket = {
+				current: currencyValue,
+				price: "unknown",
+			}
+			const [newTicketData, newTicketDataErr] = await addTicket(newTicket)
+			if (!newTicketDataErr) {
+				dispatch({ type: "ADD", payload: newTicketData })
+				setCurrencyValue(null)
+				return
+			}
+			if (newTicketDataErr) {
+				throw new Error("Error while adding data!")
+			}
 		}
 	}
 	return (
@@ -34,7 +36,7 @@ export default function Header() {
 						<div className="mt-1 relative rounded-md shadow-md">
 							<input
 								onChange={e => setCurrencyValue(() => e.target.value)}
-								onKeyDown={e => (e.key === "Enter" ? add : "")}
+								onKeyDown={e => (e.key === "Enter" ? handleAdd : "")}
 								value={currencyValue ? currencyValue : ""}
 								type="text"
 								name="wallet"
@@ -73,7 +75,7 @@ export default function Header() {
 					</div>
 				</div>
 				<button
-					onClick={add}
+					onClick={handleAdd}
 					type="button"
 					className="my-4 inline-flex items-center py-2 px-4 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-full text-white bg-gray-600 hover:bg-gray-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
 				>

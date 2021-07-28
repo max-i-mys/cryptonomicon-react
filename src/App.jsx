@@ -1,17 +1,25 @@
 import "./App.css"
 import Header from "./components/Header"
 import TicketList from "./components/TicketList"
+import useTickets from "./hooks/useTickets"
 
 function App() {
+	const [tickets] = useTickets()
 	return (
 		<div className="App container mx-auto flex flex-col items-center bg-gray-100 p-4">
 			<div className="container">
 				<Header />
-				<hr className="w-full border-t border-gray-600 my-4" />
-				<dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
-					<TicketList />
-				</dl>
-				<hr className="w-full border-t border-gray-600 my-4" />
+				{tickets.length ? (
+					<>
+						<hr className="w-full border-t border-gray-600 my-4" />
+						<dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
+							<TicketList />
+						</dl>
+						<hr className="w-full border-t border-gray-600 my-4" />
+					</>
+				) : (
+					""
+				)}
 				<section className="relative">
 					<h3 className="text-lg leading-6 font-medium text-gray-900 my-8">
 						VUE - USD
