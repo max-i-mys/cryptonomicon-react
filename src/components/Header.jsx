@@ -1,27 +1,38 @@
 import React, { useState } from "react"
-import { addTicket } from "../api/crud"
-import useTickets from "../hooks/useTickets"
+import { addTicker } from "../api/crud"
+import useTickers from "../hooks/useTickers"
 import { popularCurrency } from "../util/constants"
 
 export default function Header() {
 	const [currencyValue, setCurrencyValue] = useState(null)
-	const [, dispatch] = useTickets()
+	const [tickers, dispatch] = useTickers()
+	const [showTitleIsTicker, setShowTitleIsTicker] = useState(false)
 	async function handleAdd(e) {
-		if (currencyValue) {
-			const newTicket = {
+		let refreshTitleIsTickerTimer = null
+		clearTimeout(refreshTitleIsTickerTimer)
+		const currencyInTickers = tickers.find(
+			ticker => ticker.current === currencyValue
+		)
+		if (currencyValue && !currencyInTickers) {
+			const newTicker = {
 				current: currencyValue,
 				price: "-",
 			}
-			const [newTicketData, newTicketDataErr] = await addTicket(newTicket)
-			if (!newTicketDataErr) {
-				dispatch({ type: "ADD", payload: newTicketData })
+			const [newTickerData, newTickerDataErr] = await addTicker(newTicker)
+			if (!newTickerDataErr) {
+				dispatch({ type: "ADD", payload: newTickerData })
 				setCurrencyValue(null)
 				return
 			}
-			if (newTicketDataErr) {
+			if (newTickerDataErr) {
 				throw new Error("Error while adding data!")
 			}
 		}
+		setShowTitleIsTicker(true)
+		refreshTitleIsTickerTimer = setTimeout(
+			() => setShowTitleIsTicker(false),
+			2000
+		)
 	}
 	return (
 		<>
@@ -72,7 +83,11 @@ export default function Header() {
 								{popularCurrency[3]}
 							</span>
 						</div>
-						<div className="text-sm text-red-600">Такой тикер уже добавлен</div>
+						{showTitleIsTicker && (
+							<div className="text-sm text-red-600">
+								Такой тикер уже добавлен
+							</div>
+						)}
 					</div>
 				</div>
 				<button

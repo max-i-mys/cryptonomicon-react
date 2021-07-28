@@ -1,19 +1,18 @@
 import "./App.css"
 import Header from "./components/Header"
-import TicketList from "./components/TicketList"
-import useTickets from "./hooks/useTickets"
-
+import TickerList from "./components/TickerList"
+import useTickers from "./hooks/useTickers"
 function App() {
-	const [tickets] = useTickets()
+	const [tickers] = useTickers()
 	return (
 		<div className="App container mx-auto flex flex-col items-center bg-gray-100 p-4">
 			<div className="container">
 				<Header />
-				{tickets.length ? (
+				{tickers.length ? (
 					<>
 						<hr className="w-full border-t border-gray-600 my-4" />
 						<dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
-							<TicketList />
+							<TickerList />
 						</dl>
 						<hr className="w-full border-t border-gray-600 my-4" />
 					</>

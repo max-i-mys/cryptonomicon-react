@@ -1,15 +1,15 @@
-import { deleteTicket } from "../api/crud"
-import useTickets from "../hooks/useTickets"
+import { deleteTicker } from "../api/crud"
+import useTickers from "../hooks/useTickers"
 
-export default function Ticket({ ticket }) {
-	const [, dispatch] = useTickets()
+export default function Ticker({ ticker }) {
+	const [, dispatch] = useTickers()
 	async function handleDelete() {
-		if (ticket.id) {
-			const [, remoteTicketErr] = await deleteTicket(ticket.id)
-			if (!remoteTicketErr) {
-				dispatch({ type: "DELETE", payload: ticket.id })
+		if (ticker.id) {
+			const [, remoteTickerErr] = await deleteTicker(ticker.id)
+			if (!remoteTickerErr) {
+				dispatch({ type: "DELETE", payload: ticker.id })
 			}
-			if (remoteTicketErr) {
+			if (remoteTickerErr) {
 				throw new Error("")
 			}
 		}
@@ -19,10 +19,10 @@ export default function Ticket({ ticket }) {
 			<div className="bg-white overflow-hidden shadow rounded-lg border-purple-800 border-solid cursor-pointer">
 				<div className="px-4 py-5 sm:p-6 text-center">
 					<dt className="text-sm font-medium text-gray-500 truncate">
-						{ticket.current} - USD
+						{ticker.current} - USD
 					</dt>
 					<dd className="mt-1 text-3xl font-semibold text-gray-900">
-						{ticket.price}
+						{ticker.price}
 					</dd>
 				</div>
 				<div className="w-full border-t border-gray-200"></div>

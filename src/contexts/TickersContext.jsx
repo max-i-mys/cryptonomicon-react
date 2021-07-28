@@ -1,22 +1,22 @@
 import { createContext, useEffect, useReducer } from "react"
-import { getTickets } from "../api/crud"
+import { getTickers } from "../api/crud"
 
-export const TicketsContext = createContext()
+export const TickersContext = createContext()
 
 const initialState = []
-export default function TicketsProvider({ children }) {
+export default function TickersProvider({ children }) {
 	useEffect(() => {
 		;(async () => {
-			const [ticketsData, ticketsDataErr] = await getTickets()
-			if (!ticketsDataErr) {
-				dispatchTickets({ type: "INITIAL", payload: ticketsData })
+			const [tickersData, tickersDataErr] = await getTickers()
+			if (!tickersDataErr) {
+				dispatchTickers({ type: "INITIAL", payload: tickersData })
 			}
-			if (ticketsDataErr) {
+			if (tickersDataErr) {
 				new Error("Error while fetching data!")
 			}
 		})()
 	}, [])
-	const [tickets, dispatchTickets] = useReducer(reducer, initialState)
+	const [tickers, dispatchTickers] = useReducer(reducer, initialState)
 
 	function reducer(state, action) {
 		switch (action.type) {
@@ -25,7 +25,7 @@ export default function TicketsProvider({ children }) {
 			case "ADD":
 				return [...state, action.payload]
 			case "DELETE": {
-				const idx = state.findIndex(ticket => ticket.id === action.payload)
+				const idx = state.findIndex(ticker => ticker.id === action.payload)
 				const newState = [...state]
 				if (idx !== -1) {
 					newState.splice(idx, 1)
@@ -38,9 +38,9 @@ export default function TicketsProvider({ children }) {
 	}
 	return (
 		<>
-			<TicketsContext.Provider value={[tickets, dispatchTickets]}>
+			<TickersContext.Provider value={[tickers, dispatchTickers]}>
 				{children}
-			</TicketsContext.Provider>
+			</TickersContext.Provider>
 		</>
 	)
 }

@@ -17,14 +17,14 @@ crud.interceptors.response.use(
 	}
 )
 
-export async function getTickets() {
-	return await crud.get("/tickets")
+export async function getTickers() {
+	return await crud.get("/tickers")
 }
 
-export async function addTicket(data) {
-	return await crud.post("/tickets", data)
+export async function addTicker(data) {
+	return await crud.post("/tickers", data)
 }
 
-export async function deleteTicket(id) {
-	return await crud.delete(`/tickets/${id}`)
+export async function deleteTicker(id) {
+	return await crud.delete(`/tickers/${id}`)
 }

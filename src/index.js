@@ -2,13 +2,13 @@ import React from "react"
 import ReactDOM from "react-dom"
 import "./index.css"
 import App from "./App.jsx"
-import TicketsProvider from "./contexts/TicketsContext"
+import TickersProvider from "./contexts/TickersContext"
 
 ReactDOM.render(
 	<React.StrictMode>
-		<TicketsProvider>
+		<TickersProvider>
 			<App />
-		</TicketsProvider>
+		</TickersProvider>
 	</React.StrictMode>,
 	document.getElementById("root")
 )
