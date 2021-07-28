@@ -1,5 +1,5 @@
 import { createContext, useEffect, useReducer } from "react"
-import { getTickets } from "../../api/crud"
+import { getTickets } from "../api/crud"
 
 export const TicketsContext = createContext()
 
@@ -24,12 +24,14 @@ export default function TicketsProvider({ children }) {
 				return action.payload
 			case "ADD":
 				return [...state, action.payload]
-			case "UPDATE": {
+			case "DELETE": {
+				const idx = state.findIndex(ticket => ticket.id === action.payload)
+				const newState = [...state]
+				if (idx !== -1) {
+					newState.splice(idx, 1)
+				}
+				return newState
 			}
-			// case "DELETE": {
-
-			// }
-			// eslint-disable-next-line no-fallthrough
 			default:
 				throw new Error(`Wrong action type: ${action.type}`)
 		}

@@ -2,7 +2,7 @@ import React from "react"
 import ReactDOM from "react-dom"
 import "./index.css"
 import App from "./App.jsx"
-import TicketsProvider from "./components/contexts/TicketsContext"
+import TicketsProvider from "./contexts/TicketsContext"
 
 ReactDOM.render(
 	<React.StrictMode>

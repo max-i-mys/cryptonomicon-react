@@ -24,3 +24,7 @@ export async function getTickets() {
 export async function addTicket(data) {
 	return await crud.post("/tickets", data)
 }
+
+export async function deleteTicket(id) {
+	return await crud.delete(`/tickets/${id}`)
+}

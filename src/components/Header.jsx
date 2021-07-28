@@ -17,8 +17,7 @@ export default function Header() {
 			return
 		}
 		if (newTicketDataErr) {
-			new Error("Error while adding data!")
-			return
+			throw new Error("Error while adding data!")
 		}
 	}
 	return (
