@@ -2,8 +2,9 @@ import { deleteTicker } from "../api/crud"
 import useTickers from "../hooks/useTickers"
 
 export default function Ticker({ ticker }) {
-	const [, dispatch] = useTickers()
-	async function handleDelete() {
+	const [, dispatch, , setActiveDataTicker] = useTickers()
+	async function handleDelete(e) {
+		e.stopPropagation()
 		if (ticker.id) {
 			const [, remoteTickerErr] = await deleteTicker(ticker.id)
 			if (!remoteTickerErr) {
@@ -16,7 +17,10 @@ export default function Ticker({ ticker }) {
 	}
 	return (
 		<>
-			<div className="bg-white overflow-hidden shadow rounded-lg border-purple-800 border-solid cursor-pointer">
+			<div
+				onClick={() => setActiveDataTicker(ticker.current)}
+				className="bg-white overflow-hidden shadow rounded-lg border-purple-800 border-solid cursor-pointer"
+			>
 				<div className="px-4 py-5 sm:p-6 text-center">
 					<dt className="text-sm font-medium text-gray-500 truncate">
 						{ticker.current} - USD

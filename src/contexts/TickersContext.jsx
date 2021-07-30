@@ -1,10 +1,11 @@
-import { createContext, useEffect, useReducer } from "react"
+import { createContext, useEffect, useReducer, useState } from "react"
 import { getTickers } from "../api/crud"
 
 export const TickersContext = createContext()
 
 const initialState = []
 export default function TickersProvider({ children }) {
+	const [activeDataTicker, setActiveDataTicker] = useState(null)
 	useEffect(() => {
 		;(async () => {
 			const [tickersData, tickersDataErr] = await getTickers()
@@ -38,7 +39,14 @@ export default function TickersProvider({ children }) {
 	}
 	return (
 		<>
-			<TickersContext.Provider value={[tickers, dispatchTickers]}>
+			<TickersContext.Provider
+				value={[
+					tickers,
+					dispatchTickers,
+					activeDataTicker,
+					setActiveDataTicker,
+				]}
+			>
 				{children}
 			</TickersContext.Provider>
 		</>
