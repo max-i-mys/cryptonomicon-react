@@ -20,7 +20,6 @@ export default function Header() {
 		if (!currencyInTickers) {
 			const newTicker = {
 				current: currencyValueUpp,
-				price: "-",
 			}
 			const [newTickerData, newTickerDataErr] = await addTicker(newTicker)
 			if (!newTickerDataErr) {

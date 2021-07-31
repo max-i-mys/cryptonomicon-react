@@ -1,14 +1,36 @@
+import { useEffect, useState } from "react"
 import { deleteTicker } from "../api/crud"
+import { getPrice } from "../api/cryptocompare"
 import useTickers from "../hooks/useTickers"
 
 export default function Ticker({ ticker }) {
-	const [, dispatch, , setActiveDataTicker] = useTickers()
+	const [validPrice, setValidPrice] = useState(null)
+	const [, dispatch, activeCurrent, setActiveDataTicker] = useTickers()
+	useEffect(() => {
+		let timer
+		if (ticker) {
+			timer = setInterval(async () => {
+				const [dataPrice, dataPriceErr] = await getPrice(ticker.current)
+				if (!dataPriceErr) {
+					const roundedPrice =
+						dataPrice.USD > 1
+							? dataPrice.USD.toFixed(2)
+							: dataPrice.USD.toPrecision(2)
+					setValidPrice(roundedPrice)
+				}
+			}, 5000)
+		}
+		return () => clearInterval(timer)
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	})
+
 	async function handleDelete(e) {
 		e.stopPropagation()
 		if (ticker.id) {
 			const [, remoteTickerErr] = await deleteTicker(ticker.id)
 			if (!remoteTickerErr) {
 				dispatch({ type: "DELETE", payload: ticker.id })
+				setActiveDataTicker(null)
 			}
 			if (remoteTickerErr) {
 				throw new Error("")
@@ -19,14 +41,16 @@ export default function Ticker({ ticker }) {
 		<>
 			<div
 				onClick={() => setActiveDataTicker(ticker.current)}
-				className="bg-white overflow-hidden shadow rounded-lg border-purple-800 border-solid cursor-pointer"
+				className={`bg-white overflow-hidden shadow rounded-lg border-purple-800 border-solid cursor-pointer ${
+					ticker.current === activeCurrent ? "border-4" : ""
+				}`}
 			>
 				<div className="px-4 py-5 sm:p-6 text-center">
 					<dt className="text-sm font-medium text-gray-500 truncate">
 						{ticker.current} - USD
 					</dt>
 					<dd className="mt-1 text-3xl font-semibold text-gray-900">
-						{ticker.price}
+						{validPrice ? validPrice : "-"}
 					</dd>
 				</div>
 				<div className="w-full border-t border-gray-200"></div>

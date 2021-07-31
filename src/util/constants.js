@@ -1,1 +1,1 @@
-export const popularCurrency = ["BTC", "DOGE", "BCH", "CHD"]
+export const popularCurrency = ["BTC", "DOGE", "BCH", "XCH"]
