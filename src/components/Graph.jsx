@@ -1,7 +1,9 @@
 import useTicker from "../hooks/useTickers"
+import { useState, useEffect } from "react"
 
 export default function Graph() {
-	const [, , currency, hideGraph] = useTicker()
+	const [, , currency, hideGraph, activePrice] = useTicker()
+
 	return (
 		<>
 			{currency && (

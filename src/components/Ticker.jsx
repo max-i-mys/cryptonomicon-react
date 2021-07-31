@@ -5,7 +5,14 @@ import useTickers from "../hooks/useTickers"
 
 export default function Ticker({ ticker }) {
 	const [validPrice, setValidPrice] = useState(null)
-	const [, dispatch, activeCurrent, setActiveDataTicker] = useTickers()
+	const [
+		,
+		dispatch,
+		activeCurrent,
+		setActiveDataTicker,
+		activePrice,
+		setActivePrice,
+	] = useTickers()
 	useEffect(() => {
 		let timer
 		if (ticker) {
@@ -17,11 +24,13 @@ export default function Ticker({ ticker }) {
 							? dataPrice.USD.toFixed(2)
 							: dataPrice.USD.toPrecision(2)
 					setValidPrice(roundedPrice)
+					if (ticker.current === activeCurrent) {
+						setActivePrice([...activePrice, roundedPrice])
+					}
 				}
 			}, 5000)
 		}
 		return () => clearInterval(timer)
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	})
 
 	async function handleDelete(e) {
@@ -30,7 +39,6 @@ export default function Ticker({ ticker }) {
 			const [, remoteTickerErr] = await deleteTicker(ticker.id)
 			if (!remoteTickerErr) {
 				dispatch({ type: "DELETE", payload: ticker.id })
-				setActiveDataTicker(null)
 			}
 			if (remoteTickerErr) {
 				throw new Error("")

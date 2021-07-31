@@ -6,6 +6,7 @@ export const TickersContext = createContext()
 const initialState = []
 export default function TickersProvider({ children }) {
 	const [activeDataTicker, setActiveDataTicker] = useState(null)
+	const [activePrice, setActivePrice] = useState([])
 	useEffect(() => {
 		;(async () => {
 			const [tickersData, tickersDataErr] = await getTickers()
@@ -45,6 +46,8 @@ export default function TickersProvider({ children }) {
 					dispatchTickers,
 					activeDataTicker,
 					setActiveDataTicker,
+					activePrice,
+					setActivePrice,
 				]}
 			>
 				{children}
