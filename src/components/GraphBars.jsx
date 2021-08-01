@@ -2,12 +2,14 @@ import useTicker from "../hooks/useTickers"
 
 export default function GraphBars() {
 	const [, , , , activePrice] = useTicker()
-
 	const normalizePrice = countArray => {
 		const maxValue = Math.max(...countArray)
 		const minValue = Math.min(...countArray)
 		return countArray.map(
-			price => 5 + ((price - minValue) * 95) / (maxValue - minValue)
+			price =>
+				5 +
+				((price - (minValue - minValue / 10 ** 100)) * 95) /
+					(maxValue - minValue)
 		)
 	}
 	return (
@@ -18,7 +20,7 @@ export default function GraphBars() {
 						<div
 							key={index}
 							style={{ height: bar + "%" }}
-							className="bg-purple-800 border w-10"
+							className="bg-purple-800 border w-10 h-40"
 						></div>
 					)
 				})}
