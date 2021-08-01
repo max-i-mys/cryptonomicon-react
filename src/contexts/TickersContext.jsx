@@ -1,5 +1,6 @@
 import { createContext, useEffect, useReducer, useState } from "react"
 import { getTickers } from "../api/crud"
+import { getAllCoins } from "../api/cryptocompare"
 
 export const TickersContext = createContext()
 
@@ -7,17 +8,6 @@ const initialState = []
 export default function TickersProvider({ children }) {
 	const [activeDataTicker, setActiveDataTicker] = useState(null)
 	const [activePrice, setActivePrice] = useState([])
-	useEffect(() => {
-		;(async () => {
-			const [tickersData, tickersDataErr] = await getTickers()
-			if (!tickersDataErr) {
-				dispatchTickers({ type: "INITIAL", payload: tickersData })
-			}
-			if (tickersDataErr) {
-				new Error("Error while fetching data!")
-			}
-		})()
-	}, [])
 	const [tickers, dispatchTickers] = useReducer(reducer, initialState)
 
 	function reducer(state, action) {
@@ -38,6 +28,26 @@ export default function TickersProvider({ children }) {
 				throw new Error(`Wrong action type: ${action.type}`)
 		}
 	}
+	useEffect(() => {
+		;(async () => {
+			const [tickersData, tickersDataErr] = await getTickers()
+			if (!tickersDataErr) {
+				dispatchTickers({ type: "INITIAL", payload: tickersData })
+			}
+			if (tickersDataErr) {
+				new Error("Error while fetching data!")
+			}
+		})()
+	}, [])
+	useEffect(() => {
+		;(async () => {
+			const [coinsData, coinsDataErr] = await getAllCoins()
+			if (!coinsDataErr) {
+				const allCoins = Object.values(coinsData.Data).map(coin => coin.symbol)
+				console.log(allCoins)
+			}
+		})()
+	}, [])
 	return (
 		<>
 			<TickersContext.Provider

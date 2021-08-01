@@ -15,7 +15,7 @@ export default function Graph() {
 					<h3 className="text-lg leading-6 font-medium text-gray-900 my-8">
 						{currency} - USD
 					</h3>
-					<div className="flex items-end border-gray-600 border-b border-l h-64">
+					<div className="flex items-end border-gray-600 border-b border-l h-64 overflow-auto">
 						<GraphBars />
 					</div>
 					<button

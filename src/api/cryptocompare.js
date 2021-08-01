@@ -22,3 +22,9 @@ export async function getPrice(current) {
 		`/price?fsym=${current}&tsyms=USD&api_key=5689944663715e69a33cd6ffdd74a4b502e2306353403c25e18f2080284cfa0c`
 	)
 }
+
+export async function getAllCoins() {
+	return await crypto.get(
+		"/blockchain/list?api_key=5689944663715e69a33cd6ffdd74a4b502e2306353403c25e18f2080284cfa0c"
+	)
+}
