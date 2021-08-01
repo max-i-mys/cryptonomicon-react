@@ -6,12 +6,10 @@ export default function GraphBars() {
 		const maxValue = Math.max(...countArray)
 		const minValue = Math.min(...countArray)
 		return countArray.map(
-			price =>
-				5 +
-				((price - (minValue - minValue / 10 ** 100)) * 95) /
-					(maxValue - minValue)
+			price => 5 + ((price - minValue) * 95) / (maxValue - minValue)
 		)
 	}
+
 	return (
 		<>
 			{normalizePrice(activePrice).length > 0 &&
