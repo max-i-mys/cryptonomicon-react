@@ -1,9 +1,13 @@
 import useTicker from "../hooks/useTickers"
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
+import GraphBars from "./GraphBars"
 
 export default function Graph() {
-	const [, , currency, hideGraph, activePrice] = useTicker()
-
+	const [, , currency, hideGraph, , setActivePrice] = useTicker()
+	useEffect(() => {
+		setActivePrice([])
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [currency])
 	return (
 		<>
 			{currency && (
@@ -12,10 +16,7 @@ export default function Graph() {
 						{currency} - USD
 					</h3>
 					<div className="flex items-end border-gray-600 border-b border-l h-64">
-						<div className="bg-purple-800 border w-10 h-24"></div>
-						<div className="bg-purple-800 border w-10 h-32"></div>
-						<div className="bg-purple-800 border w-10 h-48"></div>
-						<div className="bg-purple-800 border w-10 h-16"></div>
+						<GraphBars />
 					</div>
 					<button
 						onClick={() => hideGraph(null)}
